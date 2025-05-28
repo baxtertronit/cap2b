@@ -1,14 +1,10 @@
-console.log('Loading bookshop service...')
-
 const cds = require('@sap/cds')
-
+const logger = cds.log('capb2b')
 module.exports = cds.service.impl(function () {
-    console.log('I am in the anonymous function...')
-    this.on('READ', 'Books', (req, ...things) => {
-        return [{
-            ID: cds.utils.uuid(), 
-            title: "The title", 
-            author_ID: 2
-        }];
+    logger("I am in the anonymous function")
+    this.after('READ', 'Books', (data, req) => {
+        // logger(data)
+        data.map(book => book.title += '!' )
+
     })
 })
